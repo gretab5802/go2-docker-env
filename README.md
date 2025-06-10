@@ -120,7 +120,7 @@ apt install ros-foxy-rosidl-generator-dds-idl
 ```
 Note: When in Docker container, don't use sudo since you're always a root user
 ```
-cd ~/unitree_ros2/cyclonedds_ws/src
+cd unitree_ros2/cyclonedds_ws/src
 git clone https://github.com/ros2/rmw_cyclonedds -b foxy
 git clone https://github.com/eclipse-cyclonedds/cyclonedds -b releases/0.10.x 
 cd ..
@@ -135,5 +135,5 @@ colcon build # Compile all packages in the workspace
 Source:
 ```
 source /opt/ros/foxy/setup.bash
-source ~/unitree_ros2/cyclonedds_ws/install/setup.bash
+source unitree_ros2/cyclonedds_ws/install/setup.bash
 ```
