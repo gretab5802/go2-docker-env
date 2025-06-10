@@ -86,7 +86,7 @@ Note: You can name it something other than unitree_go2_env if you would like
 
 Run image:
 ```
-sudo docker run -it --net=host --privileged --name unitree_go2_env -v /dev:/dev -v $(pwd):/root/unitree_ws unitree_ros2_env bash
+sudo docker run -it --name unitree_go2_env --net=host --privileged unitree_ros2_env bash
 ```
 
 You can exit with `exit`
