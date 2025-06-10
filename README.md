@@ -105,6 +105,9 @@ git clone https://github.com/unitreerobotics/unitree_ros2
 ```
 ```
 apt install ros-foxy-rmw-cyclonedds-cpp
+```
+^ Do the above and below commands separately, for whatever reason it aborts any time I try to do them at the same time.
+```
 apt install ros-foxy-rosidl-generator-dds-idl
 ```
 Note: When in Docker container, don't use sudo since you're always a root user
