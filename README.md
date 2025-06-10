@@ -57,6 +57,11 @@ RUN apt update && apt install -y \
     python3-argcomplete \
     && locale-gen en_US en_US.UTF-8 && update-locale
 
+# Fix Python packaging toolchain
+RUN apt install -y python3-distutils python3-pip && \
+    python3 -m pip install --upgrade pip setuptools && \
+    python3 -m pip install numpy
+
 # Fix expired ROS key
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
 
