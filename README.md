@@ -60,7 +60,8 @@ RUN apt update && apt install -y \
 # Fix Python packaging toolchain
 RUN apt install -y python3-distutils python3-pip && \
     python3 -m pip install --upgrade pip setuptools && \
-    python3 -m pip install numpy
+    python3 -m pip install --upgrade importlib-metadata && \
+    python3 -m pip install --no-cache-dir numpy
 
 # Fix expired ROS key
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
