@@ -109,7 +109,7 @@ And scroll to the bottom. If there is anything resembling `source /opt/ros/DISTR
 git clone https://github.com/unitreerobotics/unitree_ros2
 ```
 ```
-apt install ros-foxy-rmw-cyclonedds-cpp
+apt install ros-foxy-rmw-cyclonedds-cpp -y
 ```
 ^ Do the above and below commands separately, for whatever reason it aborts any time I try to do them at the same time.
 ```
