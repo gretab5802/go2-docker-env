@@ -128,7 +128,7 @@ colcon build --packages-select cyclonedds --cmake-args -DENABLE_TYPE_DISCOVERY=O
 ```
 ```
 source /opt/ros/foxy/setup.bash # source ROS2 environment
-cd ~/unitree_ros2
+cd unitree_ros2
 colcon build # Compile all packages in the workspace
 ```
 
