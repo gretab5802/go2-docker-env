@@ -145,6 +145,14 @@ source /opt/ros/foxy/setup.bash
 source /unitree_ros2/cyclonedds_ws/install/setup.bash
 ```
 
+## Network configuration
+(first two steps taken directly from [here](https://github.com/unitreerobotics/unitree_ros2?tab=readme-ov-file#connect-to-unitree-robot))
+
+Connect Unitree robot and the computer using Ethernet cable. Then, use ifconfig to view the network interface that the robot connected.
+
+Next, open the network settings, find the network interface that the robot connected.
+In IPv4 setting, change the IPv4 mode to manual, set the address to 192.168.123.99, and set the mask to 255.255.255.0. After completion, click apply and wait for the network to reconnect.
+
 Edit setup.sh
 ```
 nano /unitree_ros2/setup.sh
@@ -234,3 +242,23 @@ Opening a new terminal while another one is already running in docker, SSHing or
 ```
 sudo docker exec -it unitree_go2_env bash
 ```
+
+## Sending stand command from computer
+**Following along: https://support.unitree.com/home/en/developer/Quick_start**
+Forewarning: when I run this example, I can't control it with the remote afterwards unless I power cycle the Go2.
+Also, **make sure the robot is lying down before you send the command**.
+
+Get ip link for connecting to your computer:
+```
+ip link show
+```
+The one for me showed eth0. So run this for stand up example:
+```
+cd ~/unitree_sdk2/build/bin
+sudo ./stand_example_go2 eth0
+```
+If it says disable action mode, run:
+```
+./sport_client_example enx00e04c680aff
+```
+And then `Ctrl+C` out of it. Try `sudo ./stand_example_go2 eth0` again.
