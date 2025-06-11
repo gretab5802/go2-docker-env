@@ -7,6 +7,7 @@ Steps to configure Docker container for Ubuntu 20.04 and connect to a Unitree Go
 3. [Installing ROS 2 Foxy](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html)
 4. [Unitree Go2 Tutorials](https://www.docs.quadruped.de/projects/go2/html/go2_driver.html)
 5. [Installing Docker on Ubuntu 22.04 or 24.04](https://docs.docker.com/engine/install/ubuntu/)
+6. [Go2 Controller info](https://shop.unitree.com/products/go2-controller)
 
 ## Prequisites:
 ### Hardware needed:
