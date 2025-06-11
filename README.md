@@ -201,7 +201,7 @@ Now let's ping:
 ping 192.168.123.18
 ```
 A successful try will look like:
-```
+<pre>
 unitree@ubuntu:~$ ping 192.168.123.18
 PING 192.168.123.18 (192.168.123.18) 56(84) bytes of data.
 64 bytes from 192.168.123.18: icmp_seq=1 ttl=64 time=0.027 ms
@@ -212,7 +212,7 @@ PING 192.168.123.18 (192.168.123.18) 56(84) bytes of data.
 --- 192.168.123.18 ping statistics ---
 4 packets transmitted, 4 received, 0% packet loss, time 3080ms
 rtt min/avg/max/mdev = 0.023/0.030/0.037/0.006 ms
-```
+</pre>
 SSH into robot, default password is `123`:
 ```
 ssh -X unitree@192.168.123.18
@@ -229,3 +229,8 @@ source unitree_ros2/setup.sh
 ```
 or something similar.
 
+To open another terminal we need to add the exec command, otherwise it will just mimic the other one you already have open.
+Opening a new terminal while another one is already running in docker, SSHing or not, looks like:
+```
+sudo docker exec -it unitree_go2_env bash
+```
