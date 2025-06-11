@@ -189,3 +189,43 @@ To see velocities and other data:
 ```
 ros2 topic echo /sportmodestate
 ```
+
+## SSHing
+**Following along: https://www.docs.quadruped.de/projects/go2/html/go2_driver.html#go2-tele-operation**
+Since we're in a docker container and don't have any libraries installed, we need to get the one that lets us ping:
+```
+apt update && apt install -y iputils-ping
+```
+Now let's ping:
+```
+ping 192.168.123.18
+```
+A successful try will look like:
+```
+unitree@ubuntu:~$ ping 192.168.123.18
+PING 192.168.123.18 (192.168.123.18) 56(84) bytes of data.
+64 bytes from 192.168.123.18: icmp_seq=1 ttl=64 time=0.027 ms
+64 bytes from 192.168.123.18: icmp_seq=2 ttl=64 time=0.037 ms
+64 bytes from 192.168.123.18: icmp_seq=3 ttl=64 time=0.023 ms
+64 bytes from 192.168.123.18: icmp_seq=4 ttl=64 time=0.036 ms
+^C
+--- 192.168.123.18 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3080ms
+rtt min/avg/max/mdev = 0.023/0.030/0.037/0.006 ms
+```
+SSH into robot, default password is `123`:
+```
+ssh -X unitree@192.168.123.18
+```
+Type `1` and enter if you've followed along with Foxy, which is for ROS2, Ubuntu 20.04. `2` is for Noetic which is for ROS1, Ubuntu 20.04.
+
+Test out echoing the sportmodestate topic:
+```
+ros2 topic echo /sportmodestate
+```
+You may need to source first, then try again:
+```
+source unitree_ros2/setup.sh
+```
+or something similar.
+
