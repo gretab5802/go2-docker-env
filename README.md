@@ -178,6 +178,7 @@ Source everything!!
 source /opt/ros/foxy/setup.bash
 source /unitree_ros2/cyclonedds_ws/install/setup.bash
 source /unitree_ros2/install/setup.bash
+source /unitree_ros2/setup.sh
 ```
 
 To see ros2 topics:
