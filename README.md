@@ -167,9 +167,7 @@ nano /unitree_ros2/cyclonedds_ws/src/cyclonedds.xml
 <CycloneDDS>
     <Domain Id="any">
         <General>
-            <Interfaces>
-                <NetworkInterface name="enx00e04c680aff" priority="default" multicast="default"/>
-            </Interfaces>
+            <NetworkInterfaceAddress>enx00e04c680aff</NetworkInterfaceAddress>
         </General>
     </Domain>
 </CycloneDDS>
