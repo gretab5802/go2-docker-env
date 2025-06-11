@@ -172,3 +172,19 @@ nano /unitree_ros2/cyclonedds_ws/src/cyclonedds.xml
     </Domain>
 </CycloneDDS>
 ```
+
+Source everything!!
+```
+source /opt/ros/foxy/setup.bash
+source /unitree_ros2/cyclonedds_ws/install/setup.bash
+source /unitree_ros2/install/setup.bash
+```
+
+To see ros2 topics:
+```
+ros2 topic list
+```
+To see velocities and other data:
+```
+ros2 topic echo /sportmodestate
+```
