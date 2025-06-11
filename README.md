@@ -144,3 +144,33 @@ Source:
 source /opt/ros/foxy/setup.bash
 source /unitree_ros2/cyclonedds_ws/install/setup.bash
 ```
+
+Edit setup.sh
+```
+nano /unitree_ros2/setup.sh
+```
+```             
+#!/bin/bash
+echo "Setup unitree ros2 environment"
+source /opt/ros/foxy/setup.bash
+source /unitree_ros2/cyclonedds_ws/install/setup.bash
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+export CYCLONEDDS_URI=file:///unitree_ros2/cyclonedds_ws/src/cyclonedds.xml
+```
+
+Edit cyclonedds.xml
+```
+nano /unitree_ros2/cyclonedds_ws/src/cyclonedds.xml
+```
+```                   
+<?xml version="1.0" encoding="UTF-8" ?>
+<CycloneDDS>
+    <Domain Id="any">
+        <General>
+            <Interfaces>
+                <NetworkInterface name="enx00e04c680aff" priority="default" multicast="default"/>
+            </Interfaces>
+        </General>
+    </Domain>
+</CycloneDDS>
+```
