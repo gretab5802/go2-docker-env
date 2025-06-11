@@ -125,7 +125,7 @@ cd unitree_ros2/cyclonedds_ws/src
 git clone https://github.com/ros2/rmw_cyclonedds -b foxy
 git clone https://github.com/eclipse-cyclonedds/cyclonedds -b releases/0.10.x 
 cd ..
-colcon build --packages-select cyclonedds --cmake-args -DENABLE_TYPE_DISCOVERY=OFF -DENABLE_TOPIC_DISCOVERY=OFF #Compile cyclone-dds package
+colcon build --packages-select cyclonedds #Compile cyclone-dds package
 ```
 ```
 source /opt/ros/foxy/setup.bash # source ROS2 environment
