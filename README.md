@@ -130,6 +130,9 @@ colcon build --packages-select cyclonedds #Compile cyclone-dds package
 ```
 source /opt/ros/foxy/setup.bash # source ROS2 environment
 cd /unitree_ros2
+```
+Make sure you are in unitree_ros2 directory for colcon build
+```
 colcon build # Compile all packages in the workspace
 ```
 
