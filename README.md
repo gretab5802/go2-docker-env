@@ -135,6 +135,9 @@ apt install ros-foxy-rmw-cyclonedds-cpp -y
 ```
 apt install ros-foxy-rosidl-generator-dds-idl
 ```
+```
+apt install -y bison
+```
 Note: Don't use sudo since you are already root inside the Docker container
 ```
 cd /unitree_ros2/cyclonedds_ws/src
