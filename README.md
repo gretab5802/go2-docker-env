@@ -15,11 +15,10 @@ Steps to configure Docker container for Ubuntu 20.04 and connect to a Unitree Go
 * Laptop with Ubuntu (this was tested on Ubuntu 24.04)
 
 ### Software:
-* [Installing Docker on Ubuntu 22.04 or 24.04](https://docs.docker.com/engine/install/ubuntu/)
-* [Install rocker](https://github.com/osrf/rocker) for easier x11 forwarding, which allows for visualizations for simulations and data through Docker
+* This tutorial does not go through installing Docker on Ubuntu. If you do not have it already, [see this for installing it on Ubuntu 22.04 or 24.04](https://docs.docker.com/engine/install/ubuntu/)
 
 # Let's begin!
-## On Laptop
+## On laptop
 We are going to make a directory in our home folder to hold a Dockerfile, which will contain instructions to create the specific Docker image we need. Open a terminal. `Ctrl + Alt + T`
 ```
 mkdir ~/unitree_ros2_docker && cd ~/unitree_ros2_docker
@@ -80,12 +79,9 @@ sudo docker build -t unitree_ros2_env .
 ```
 Note: You can name it whatever you'd like, but for this walkthrough I have the image as `unitree_ros2_env` and the container as `unitree_go2_env`
 
-Do this to make sure GUI apps like RViz don't fail silently
-```
-xhost +local:root
-```
 Run image:
 ```
+xhost +local:root
 sudo docker run -it \
     --name unitree_go2_env \
     --net=host \
@@ -96,35 +92,31 @@ sudo docker run -it \
     unitree_ros2_env
 ```
 
-unitree_ros2_env: Specifies the Docker image to use—your custom-built ROS 2 Foxy environment.
-
 You can exit with `exit`
 
-To re-enter later with GUI:
+To re-enter the container with GUI support **or** open an additional terminal while another is already running, use the following command (same for both cases):
 ```
-xhost +local:root
 sudo docker exec -e DISPLAY=$DISPLAY \
                  -e XAUTHORITY=$XAUTHORITY \
-                 -v /tmp/.X11-unix:/tmp/.X11-unix \
                  -it unitree_go2_env bash
 ```
-To re-enter later (withought GUI):
+If you get an error like `Error response from daemon: container ... is not running`, then enter this first to start the container in the background:
+```
+sudo docker start unitree_go2_env
+```
+And then try the `sudo docker exec...` command again.
+
+To re-enter later (without GUI):
 ```
 sudo docker start -ai unitree_go2_env
 ```
 
 ## Within the container
 **Following along: https://github.com/unitreerobotics/unitree_ros2?tab=readme-ov-file**
+Note: Don't use sudo since you are already root inside the Docker container
 ```
 apt update && apt upgrade
 ```
-
-Make sure there aren't any ROS1 or ROS2 distros being sourced. Go into bashrc:
-```
-nano ~/.bashrc
-```
-And scroll to the bottom. If there is anything resembling `source /opt/ros/DISTRO/setup.bash` or anything mentioning ROS1 or ROS2, delete it.
-
 ```
 git clone https://github.com/unitreerobotics/unitree_ros2
 ```
@@ -138,11 +130,10 @@ apt install ros-foxy-rosidl-generator-dds-idl
 ```
 apt install -y bison
 ```
-Note: Don't use sudo since you are already root inside the Docker container
 ```
 cd /unitree_ros2/cyclonedds_ws/src
 ```
-Make sure cd worked and you are in the right directory
+Make sure cd worked and you are in the src directory
 ```
 git clone https://github.com/ros2/rmw_cyclonedds -b foxy
 git clone --branch 0.8.0 https://github.com/eclipse-cyclonedds/cyclonedds.git
@@ -164,18 +155,19 @@ source /opt/ros/foxy/setup.bash
 source /unitree_ros2/cyclonedds_ws/install/setup.bash
 ```
 
-## Network configuration
+### Network configuration
 (first two steps taken directly from [here](https://github.com/unitreerobotics/unitree_ros2?tab=readme-ov-file#connect-to-unitree-robot))
 
-Connect Unitree robot and the computer using Ethernet cable. Then, use ifconfig to view the network interface that the robot connected.
+1. Connect Unitree robot and the computer using Ethernet cable. Then, use ifconfig to view the network interface that the robot connected.
 
-Next, open the network settings, find the network interface that the robot connected.
+2. Next, open the network settings, find the network interface that the robot connected.
 In IPv4 setting, change the IPv4 mode to manual, set the address to 192.168.123.99, and set the mask to 255.255.255.0. After completion, click apply and wait for the network to reconnect.
 
 Edit setup.sh
 ```
 nano /unitree_ros2/setup.sh
 ```
+Change it to:
 ```             
 #!/bin/bash
 echo "Setup unitree ros2 environment"
@@ -189,6 +181,7 @@ Edit cyclonedds.xml
 ```
 nano /unitree_ros2/cyclonedds_ws/src/cyclonedds.xml
 ```
+Change it to:
 ```                   
 <?xml version="1.0" encoding="UTF-8" ?>
 <CycloneDDS>
@@ -199,8 +192,10 @@ nano /unitree_ros2/cyclonedds_ws/src/cyclonedds.xml
     </Domain>
 </CycloneDDS>
 ```
+where you should replace **enx00e04c680aff** with whatever your network address is, can check with `ifconfig`.
 
-Source everything!!
+Source everything!! I added these four lines to the bottom of my `bashrc` as well so I wouldn't have to re-source every time I entered the container.
+You can do this by doing `nano ~/.bashrc` and adding these four lines to the bottom. If you do this, either open a new terminal or run `source ~/.bashrc` for the changes to take effect in the current session.
 ```
 source /opt/ros/foxy/setup.bash
 source /unitree_ros2/cyclonedds_ws/install/setup.bash
@@ -223,7 +218,7 @@ Since we're in a docker container and don't have any libraries installed, we nee
 ```
 apt update && apt install -y iputils-ping
 ```
-Now let's ping:
+Now let's ping the Go2:
 ```
 ping 192.168.123.18
 ```
@@ -240,6 +235,7 @@ PING 192.168.123.18 (192.168.123.18) 56(84) bytes of data.
 4 packets transmitted, 4 received, 0% packet loss, time 3080ms
 rtt min/avg/max/mdev = 0.023/0.030/0.037/0.006 ms
 </pre>
+
 SSH into robot, default password is `123`:
 ```
 ssh -X unitree@192.168.123.18
@@ -257,12 +253,51 @@ source unitree_ros2/setup.sh
 or whatever the exact filepath is to the setup file. Could be bash or shell script. In this case it was `unitree/setup.sh`
 
 To open another terminal we need to add the exec command, otherwise it will just mimic the other one you already have open.
-Opening a new terminal while another one is already running in docker, SSHing or not, looks like:
+Opening a new terminal while another one is already running in docker, SSHing or not, looks like the following if you need GUI tools like RViz:
+```
+sudo docker exec -e DISPLAY=$DISPLAY \
+                 -e XAUTHORITY=$XAUTHORITY \
+                 -it unitree_go2_env bash
+```
+And looks like this if you do not need GUI tools like RViz:
 ```
 sudo docker exec -it unitree_go2_env bash
 ```
 
-## Sending stand command from computer
+### Seeing the LIDAR through RViz
+**Following along: https://github.com/unitreerobotics/unitree_ros2?tab=readme-ov-file#rviz**
+Open another terminal while one is already running:
+```
+sudo docker exec -e DISPLAY=$DISPLAY \
+                 -e XAUTHORITY=$XAUTHORITY \
+                 -it unitree_go2_env bash
+```
+Check the topics list, look for utlidar/cloud or utlidar/cloud_deskewed
+```
+ros2 topic list
+```
+You can echo either if you'd like, you don't have to echo the topics for the RViz to work:
+```
+ros2 topic echo --no-arr /utlidar/cloud
+```
+or
+```
+ros2 topic echo --no-arr /utlidar/cloud_deskewed
+```
+Double check what the frame id is, though, we will need this for RViz. I got a better visualization with utlidar/cloud_deskewed, but you could do it with utlidar/cloud if you'd like. Check the frame id by:
+```
+ros2 topic echo /utlidar/cloud_deskewed | grep frame_id
+```
+and replace /utlidar/cloud_deskewed with whatever topic you wanted to check the frame id for.
+Run RViz:
+```
+ros2 run rviz2 rviz2
+```
+Within RViz, add Pointcloud topic by clicking the Add button in the bottom left and choosing utlidar/cloud_deskewed in the Topics tab, or whichever topic you wish to visualize. Set the Fixed Frame in RViz to match the frame_id printed by the grep frame_id command (e.g., utlidar_lidar, odom, etc). In my case, `cloud_deskewed` used the `odom` frame, so I set Fixed Frame in RViz to `odom`.
+This should display the lidar information. You can add other information by adding more topics, like foot position and orientation. 
+
+
+### Sending stand command from computer
 **Following along: https://support.unitree.com/home/en/developer/Quick_start**
 Forewarning: when I run this example, I can't control it with the remote afterwards unless I power cycle the Go2.
 Also, **make sure the robot is lying down before you send the command**.
