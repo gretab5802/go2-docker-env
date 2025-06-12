@@ -112,7 +112,7 @@ sudo docker start -ai unitree_go2_env
 ```
 
 ## Within the container
-**Following along: https://github.com/unitreerobotics/unitree_ros2?tab=readme-ov-file**
+**Following along: https://github.com/unitreerobotics/unitree_ros2?tab=readme-ov-file** <br />
 Note: Don't use sudo since you are already root inside the Docker container
 ```
 apt update && apt upgrade
@@ -194,7 +194,7 @@ Change it to:
 ```
 where you should replace **enx00e04c680aff** with whatever your network address is, can check with `ifconfig`.
 
-Source everything!! I added these four lines to the bottom of my `bashrc` as well so I wouldn't have to re-source every time I entered the container.
+Source everything!! I added these four lines to the bottom of my `bashrc` as well so I wouldn't have to re-source every time I entered the container. <br />
 You can do this by doing `nano ~/.bashrc` and adding these four lines to the bottom. If you do this, either open a new terminal or run `source ~/.bashrc` for the changes to take effect in the current session.
 ```
 source /opt/ros/foxy/setup.bash
@@ -213,7 +213,7 @@ ros2 topic echo /sportmodestate
 ```
 
 ## SSHing
-**Following along: https://www.docs.quadruped.de/projects/go2/html/go2_driver.html#go2-tele-operation**
+**Following along: https://www.docs.quadruped.de/projects/go2/html/go2_driver.html#go2-tele-operation** <br />
 Since we're in a docker container and don't have any libraries installed, we need to get the one that lets us ping:
 ```
 apt update && apt install -y iputils-ping
@@ -252,7 +252,7 @@ source unitree_ros2/setup.sh
 ```
 or whatever the exact filepath is to the setup file. Could be bash or shell script. In this case it was `unitree/setup.sh`
 
-To open another terminal we need to add the exec command, otherwise it will just mimic the other one you already have open.
+To open another terminal we need to add the exec command, otherwise it will just mimic the other one you already have open. <br />
 Opening a new terminal while another one is already running in docker, SSHing or not, looks like the following if you need GUI tools like RViz:
 ```
 sudo docker exec -e DISPLAY=$DISPLAY \
@@ -265,7 +265,7 @@ sudo docker exec -it unitree_go2_env bash
 ```
 
 ### Seeing the LIDAR through RViz
-**Following along: https://github.com/unitreerobotics/unitree_ros2?tab=readme-ov-file#rviz**
+**Following along: https://github.com/unitreerobotics/unitree_ros2?tab=readme-ov-file#rviz** <br />
 Open another terminal while one is already running:
 ```
 sudo docker exec -e DISPLAY=$DISPLAY \
@@ -293,7 +293,7 @@ Run RViz:
 ```
 ros2 run rviz2 rviz2
 ```
-Within RViz, add Pointcloud topic by clicking the Add button in the bottom left and choosing utlidar/cloud_deskewed in the Topics tab, or whichever topic you wish to visualize. Set the Fixed Frame in RViz to match the frame_id printed by the grep frame_id command (e.g., utlidar_lidar, odom, etc). In my case, `cloud_deskewed` used the `odom` frame, so I set Fixed Frame in RViz to `odom`.
+Within RViz, add Pointcloud topic by clicking the Add button in the bottom left and choosing utlidar/cloud_deskewed in the Topics tab, or whichever topic you wish to visualize. Set the Fixed Frame in RViz to match the frame_id printed by the grep frame_id command (e.g., utlidar_lidar, odom, etc). In my case, `cloud_deskewed` used the `odom` frame, so I set Fixed Frame in RViz to `odom`. <br />
 This should display the lidar information. You can add other information by adding more topics, like foot position and orientation. 
 
 
