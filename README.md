@@ -61,14 +61,6 @@ RUN apt update && apt install -y \
     python3-argcomplete \
     && locale-gen en_US en_US.UTF-8 && update-locale
 
-# Python toolchain setup
-RUN apt install -y python3-distutils python3-pip && \
-    python3 -m pip install --no-cache-dir "setuptools<60" "importlib-metadata<5" numpy
-
-# Remove broken system colcon and replace with pip version
-RUN apt purge -y python3-colcon-common-extensions colcon-common-extensions || true && \
-    python3 -m pip install --no-cache-dir colcon-common-extensions
-
 # Fix expired ROS key
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
 
