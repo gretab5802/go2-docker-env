@@ -299,7 +299,7 @@ This should display the lidar information. You can add other information by addi
 
 ### Sending stand command from computer
 **Following along: https://support.unitree.com/home/en/developer/Quick_start** <br />
-Forewarning: when I run this example, I can't control it with the remote afterwards unless I power cycle the Go2.
+Forewarning: when I run this example, I can't control it with the remote afterwards unless I power cycle the Go2. <br />
 Also, **make sure the robot is lying down before you send the command**.
 
 Get ip link for connecting to your computer:
