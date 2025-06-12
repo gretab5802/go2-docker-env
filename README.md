@@ -6,18 +6,21 @@ Steps to configure Docker container for Ubuntu 20.04 and connect to a Unitree Go
 2. [Unitree Development Guide (useful for network connection)](https://support.unitree.com/home/en/developer/Quick_start)
 3. [Installing ROS 2 Foxy](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html)
 4. [Unitree Go2 Tutorials](https://www.docs.quadruped.de/projects/go2/html/go2_driver.html)
-5. [Installing Docker on Ubuntu 22.04 or 24.04](https://docs.docker.com/engine/install/ubuntu/)
-6. [Go2 Controller info](https://shop.unitree.com/products/go2-controller)
+5. [Go2 Controller info](https://shop.unitree.com/products/go2-controller)
 
-## Prequisites:
+## Prerequisites:
 ### Hardware needed:
 * Unitree Go2
 * Ethernet cable + ethernet to USB adapter
 * Laptop with Ubuntu (this was tested on Ubuntu 24.04)
 
+### Software:
+* [Installing Docker on Ubuntu 22.04 or 24.04](https://docs.docker.com/engine/install/ubuntu/)
+* [Install rocker](https://github.com/osrf/rocker) for easier x11 forwarding, which allows for visualizations for simulations and data through Docker
+
 # Let's begin!
 ## On Laptop
-We are going to make a directory in root to hold a Dockerfile, which will contain instructions to create the specific Docker image we need. Open a terminal. `Ctrl + Alt + T`
+We are going to make a directory in our home folder to hold a Dockerfile, which will contain instructions to create the specific Docker image we need. Open a terminal. `Ctrl + Alt + T`
 ```
 mkdir ~/unitree_ros2_docker && cd ~/unitree_ros2_docker
 ```
@@ -83,16 +86,37 @@ Build image:
 ```
 sudo docker build -t unitree_ros2_env .
 ```
-Note: You can name it something other than unitree_go2_env if you would like
+Note: You can name it whatever you'd like, but for this walkthrough I have the image as `unitree_ros2_env` and the container as `unitree_go2_env`
 
+Do this to make sure GUI apps like RViz don't fail silently
+```
+xhost +local:root
+```
 Run image:
 ```
-sudo docker run -it --name unitree_go2_env --net=host --privileged unitree_ros2_env bash
+sudo docker run -it \
+    --name unitree_go2_env \
+    --net=host \
+    --privileged \
+    -e DISPLAY=$DISPLAY \
+    -e XAUTHORITY=$XAUTHORITY \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    unitree_ros2_env
 ```
+
+unitree_ros2_env: Specifies the Docker image to use—your custom-built ROS 2 Foxy environment.
 
 You can exit with `exit`
 
-To re-enter later:
+To re-enter later with GUI:
+```
+xhost +local:root
+sudo docker exec -e DISPLAY=$DISPLAY \
+                 -e XAUTHORITY=$XAUTHORITY \
+                 -v /tmp/.X11-unix:/tmp/.X11-unix \
+                 -it unitree_go2_env bash
+```
+To re-enter later (withought GUI):
 ```
 sudo docker start -ai unitree_go2_env
 ```
@@ -119,7 +143,7 @@ apt install ros-foxy-rmw-cyclonedds-cpp -y
 ```
 apt install ros-foxy-rosidl-generator-dds-idl
 ```
-Note: When in Docker container, don't use sudo since you're always a root user
+Note: Don't use sudo since you are already root inside the Docker container
 ```
 cd /unitree_ros2/cyclonedds_ws/src
 ```
@@ -235,7 +259,7 @@ You may need to source first, then try again:
 ```
 source unitree_ros2/setup.sh
 ```
-or something similar.
+or whatever the exact filepath is to the setup file. Could be bash or shell script. In this case it was `unitree/setup.sh`
 
 To open another terminal we need to add the exec command, otherwise it will just mimic the other one you already have open.
 Opening a new terminal while another one is already running in docker, SSHing or not, looks like:
