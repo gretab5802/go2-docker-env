@@ -278,6 +278,8 @@ ros2 run rviz2 rviz2
 Within RViz, add Pointcloud topic by clicking the Add button in the bottom left and choosing utlidar/cloud_deskewed in the Topics tab, or whichever topic you wish to visualize. Set the Fixed Frame in RViz to match the frame_id printed by the grep frame_id command (e.g., utlidar_lidar, odom, etc). In my case, `cloud_deskewed` used the `odom` frame, so I set Fixed Frame in RViz to `odom`. <br />
 This should display the lidar information. You can add other information by adding more topics, like foot position and orientation. 
 
+After adding the topics could_deskewed, foot position, and orientation, my RViz looked like this:
+![RViz Go2](images/rviz_go2.png)
 
 ### Sending stand command from computer
 **Following along: https://support.unitree.com/home/en/developer/Quick_start** <br />
