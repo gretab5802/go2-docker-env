@@ -242,15 +242,14 @@ ssh -X unitree@192.168.123.18
 ```
 Type `1` and enter if you've followed along with Foxy, which is for ROS2, Ubuntu 20.04. `2` is for Noetic which is for ROS1, Ubuntu 20.04.
 
+Source the exact filepath is to the setup file. Could be bash or shell script. In this case it was `unitree/setup.sh`:
+```
+source unitree_ros2/setup.sh
+```
 Test out echoing the sportmodestate topic:
 ```
 ros2 topic echo /sportmodestate
 ```
-You may need to source first, then try again:
-```
-source unitree_ros2/setup.sh
-```
-or whatever the exact filepath is to the setup file. Could be bash or shell script. In this case it was `unitree/setup.sh`
 
 To open another terminal we need to add the exec command, otherwise it will just mimic the other one you already have open. <br />
 Opening a new terminal while another one is already running in docker, SSHing or not, looks like the following if you need GUI tools like RViz:
