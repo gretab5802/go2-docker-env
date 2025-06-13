@@ -251,26 +251,9 @@ Test out echoing the sportmodestate topic:
 ros2 topic echo /sportmodestate
 ```
 
-To open another terminal we need to add the exec command, otherwise it will just mimic the other one you already have open. <br />
-Opening a new terminal while another one is already running in docker, SSHing or not, looks like the following if you need GUI tools like RViz:
-```
-sudo docker exec -e DISPLAY=$DISPLAY \
-                 -e XAUTHORITY=$XAUTHORITY \
-                 -it unitree_go2_env bash
-```
-And looks like this if you do not need GUI tools like RViz:
-```
-sudo docker exec -it unitree_go2_env bash
-```
-
 ### Seeing the LIDAR through RViz
 **Following along: https://github.com/unitreerobotics/unitree_ros2?tab=readme-ov-file#rviz** <br />
-Open another terminal while one is already running:
-```
-sudo docker exec -e DISPLAY=$DISPLAY \
-                 -e XAUTHORITY=$XAUTHORITY \
-                 -it unitree_go2_env bash
-```
+
 Check the topics list, look for utlidar/cloud or utlidar/cloud_deskewed
 ```
 ros2 topic list
