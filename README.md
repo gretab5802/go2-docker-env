@@ -236,6 +236,11 @@ PING 192.168.123.18 (192.168.123.18) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.023/0.030/0.037/0.006 ms
 </pre>
 
+Before SSHing, do this for the Unitree to access x11 forwarding:
+```
+xhost +local:
+```
+
 SSH into robot, default password is `123`:
 ```
 ssh -X unitree@192.168.123.18
