@@ -207,10 +207,6 @@ To see ros2 topics:
 ```
 ros2 topic list
 ```
-To see velocities and other data:
-```
-ros2 topic echo /sportmodestate
-```
 
 ## SSHing
 **Following along: https://www.docs.quadruped.de/projects/go2/html/go2_driver.html#go2-tele-operation** <br />
