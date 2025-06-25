@@ -1,4 +1,4 @@
-# Unitree Go2 Docker Environment and Remote Control
+# Unitree Go2 Docker Environment and Ethernet Control
 Steps to configure Docker container for Ubuntu 20.04 and connect to a Unitree Go2 remotely through network connection
 
 ## Resources:
